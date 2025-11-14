@@ -32,7 +32,7 @@
 
 ## 中间件
 + 在项目的根目录定义一个名为 middleware.js的文件
-```
+```typescript
 // middleware.js
 import { NextResponse } from 'next/server'
  
@@ -252,3 +252,169 @@ export default function HomePage() {
 
 ## 什么是同构
 一套代码同时在服务器（Node.js） 和客户端（浏览器） 运行，兼顾服务端渲染（SSR）的首屏速度 / SEO 优势和客户端渲染（CSR）的交互体验。
+
+## 国际化
+1. nextjs内置了i18n，支持语言国际化
+```typescript
+// next.config.js
+module.exports = {
+  i18n: {
+    locales: ['en', 'zh', 'ja'],  // 支持的语言
+    defaultLocale: 'en',           // 默认语言
+    localeDetection: true,         // 自动检测浏览器语言
+  },
+};
+```
+2. 配置后，Next.js 会自动生成国际化路由：
+  - /about → 英文 About 页面
+  - /zh/about → 中文 About 页面
+3. 可以通过useRouter获取当前语言信息
+4. 可以通过router.push切换语言
+```typescript
+import { useRouter } from 'next/router';
+
+export default function LanguageSwitcher() {
+  const router = useRouter();
+
+  const changeLanguage = (locale) => {
+    router.push(router.pathname, router.asPath, { locale });
+  };
+
+  return (
+    <div>
+      <button onClick={() => changeLanguage('en')}>EN</button>
+      <button onClick={() => changeLanguage('zh')}>中文</button>
+    </div>
+  );
+}
+```
+5. 生产环境往往使用：next-i18next + SmartLing
+
+## 环境变量
++ 只有以 NEXT_PUBLIC_ 开头的环境变量可以在客户端，其他变量仅在服务端中可见。
+
+## 懒加载
+1. React.lazy + Suspense
+2. next/dynamic
+  + dynamic() 跟 lazy() 函数一样，需要放在模块顶层
+  + 只应用于客户端，如果动态导入的是一个服务端组件，只有这个服务端组件中的客户端组件才会被懒加载。
+  + 跳过ssr：客户端组件默认也是预渲染的，如果想禁用，则可以设置ssr:false
+```typescript
+'use client'
+import dynamic from 'next/dynamic'
+
+const ComponentA = dynamic(() => import('../components/a.js'), {
+  loading: () => <p>Loading...</p>,
+  ssr: false,
+  suspense: true,
+})
+const ComponentB = dynamic(() => import('../components/b.js'), { ssr: false })
+ 
+export default function Page() {
+  return (
+    <div>
+      <ComponentA />
+      <ComponentB />
+    </div>
+  )
+}
+```
+3. 通过import按需加载外部库
+```typescript
+    <input
+      type="text"
+      placeholder="Search"
+      onChange={async (e) => {
+        const { value } = e.currentTarget
+        const Fuse = (await import('fuse.js')).default
+        const fuse = new Fuse(names)
+        setResults(fuse.search(value))
+      }}
+    />
+```
+4. 应用场景：
+  + 用户点击切换后才展示的组件启用懒加载
+  + K线、深度、成交量独立异步模块，用户进入交易页后再按需加载。减少首屏bundle大小
+
+## Edge Runtime
++ Edge Runtime = 无服务器、低延迟、全球分布式的执行环境。
++ Next.js 默认的执行环境是 Node.js Runtime，如果需要开启 Edge Runtime，需要在 next.config.js 中配置：
+```typescript
+export const runtime = 'edge'
+```
++ Next.js 会将该页面或 API 路由部署到 Edge Runtime，即运行在 V8 引擎的轻量执行环境中（类似 Cloudflare Workers、Vercel Edge Functions）
++ 局限性：
+  ❌ 不能使用 Node 原生模块（如 fs, path, crypto 的部分函数）
+  ❌ 不支持持久化连接（如 WebSocket、长轮询）
+  ❌ 不适合 CPU 密集计算（如加密、压缩）
+  ✅ 支持 Web 标准 API（fetch, Request, Response, URL, Headers）
++ 应用场景：国际化路由、Auth 校验、请求预处理、中间件（默认）、A/B 分流、轻量 API
++ 不适用场景：SSR 页面渲染、大型数据请求、文件上传、数据库交互
+
+## nextjs缓存机制
+1. 请求记忆：
+  + 同一请求在同一个渲染过程中多次被调用时，Next.js 不会真的发多次请求，而是从内存中直接返回第一次结果
+  ```typescript
+  // 在同一组件树中多次调用
+  const user = await fetch('/api/user').then(res => res.json());
+  const again = await fetch('/api/user').then(res => res.json());
+  // 实际只发了一次请求！
+  ```
+2. 数据缓存
+  + Next.js 内置的 “fetch 请求级缓存”。用于跨请求缓存接口数据
+  + 可以通过 cache 选项配置缓存策略
+  ```typescript
+  fetch(url, { cache: 'force-cache' });        // 永久缓存（默认）
+  fetch(url, { cache: 'no-store' });           // 不缓存（实时请求）
+  fetch(url, { next: { revalidate: 60 } });    // 每60秒重新验证（ISR式）
+  ```
+  + 通过 revalidatePath、revalidateTag 触发缓存失效
+    - revalidatePath：根据路径失效缓存
+    - revalidateTag：根据标签失效缓存
+3. 完整路由缓存（服务端）
+  + 缓存整个页面的 最终输出（HTML + RSC Payload）
+  + 用于服务端
+  ```typescript
+  export const revalidate = 60;  // 每60秒重新生成整个页面
+  export const dynamic = 'force-dynamic'; // 禁止缓存
+  ```
+  + 可以通过 revalidatePath 触发缓存失效
+4. 路由缓存（客户端）
+  + 客户端层的页面状态缓存
+  + 用户在浏览器内切换页面（客户端路由跳转）时，上一个页面的 React 组件状态 + 数据 + DOM 会被保留在内存中，回退时无需重新请求数据。
+  ```typescript
+  // 在 app/layout.tsx 里配置
+  export const dynamic = 'force-dynamic'; // 关闭
+  ```
+  + 可以通过 router.refresh() 手动刷新当前页面，触发缓存失效。
+  ```typescript
+  'use client';
+  import { useRouter } from 'next/navigation';
+
+  export default function RefreshButton() {
+    const router = useRouter();
+    return <button onClick={() => router.refresh()}>刷新</button>;
+  }
+  ```
+
+## Next.js 服务端和客户端渲染不一致导致的水合报错该怎么解决
+```
+Error: Hydration failed because the initial UI does not match what was rendered on the server.
+```
+之所以出现这个报错，是因为服务端预渲染的 React 树和浏览器首次渲染的 React 树不一致。
+常见原因：
+1. 渲染的时候，使用了诸如 typeof window !== 'undefined' 这样的判断，导致服务端和客户端渲染结果不一致。 
+2. 渲染的时候，使用了仅限浏览器的 API，比如 window 、document、 localStorage、Date
+3. 有些库（如 chart.js, echarts）在 SSR 时无法正常生成一致的结构。
+4. 服务端渲染通过 fetch 生成初始 HTML，客户端 Hydration 时如果重新 fetch 出了不同结果，就会报错。
+解决方案：
+1. 条件渲染时避免结构变化，通过 useEffect 在客户端阶段再切换内容
+2. 如果某组件依赖浏览器环境（window/document），可以禁用ssr
+```typescript
+import dynamic from 'next/dynamic'
+const NoSSR = dynamic(() => import('../components/no-ssr'), { ssr: false })
+```
+3. 确保客户端和服务端使用同一数据源、用 Next.js 的 fetch 缓存（Data Cache）、或启用 React Query/SWR，在客户端 “rehydrate” 时保持同数据。
+
+## nextjs性能优化
+1. 默认开启了splitChunks，每个页面只会打包该页面依赖的 JS，公共依赖会拆分成 commons 或 vendors chunk，多个页面共享，node_modules 的库也会拆成单独 chunk，提高缓存命中率。

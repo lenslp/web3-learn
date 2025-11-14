@@ -56,6 +56,10 @@ module.exports = {
 3. 代码复用：将公共组件拆分成独立 chunk 后，多个模块可以共享使用，避免重复打包。
 4. 构建优化：修改应用代码时，只需要重新编译应用代码chunk，加速开发构建过程。
 
+## externals
++ 默认情况下，webpack 会把你 import 的所有模块打包进 JS 文件里。
++ 使用 externals 后，webpack 不再打包这些模块，而是期望它们在运行时 从全局变量或外部 CDN 获取
+
 ## Tree Shaking
 + Tree Shaking 是一种优化技术，用于移除未使用的代码，从而减少最终打包文件的大小。
 + 实现原理：

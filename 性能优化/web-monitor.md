@@ -25,7 +25,7 @@
 2. 错误日志指标
 ### 采集指标
 1. Web Vitals指标 ：CLS(累计布局偏移)、FID(首次输入延迟)、FCP(首次内容绘制)、LCP(最大内容绘制)、TTFB(首字节时间)
-2. 页面加载性能 ：DNS查找、TCP连接、响应时间等navigation timing指标
+2. 页面加载性能 ：DNS解析、TCP连接、响应时间等指标
 3. 资源加载监控 ：图片、脚本、样式等资源的加载时间和大小
 4. 长任务检测 ：执行时间超过50ms的JavaScript任务
 5. 错误监控 ：JavaScript错误、Promise拒绝、资源加载错误

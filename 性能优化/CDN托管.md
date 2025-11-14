@@ -1,7 +1,7 @@
 ## CDN托管
 核心是通过配置让 Next.js 生成的资源路径自动指向 CDN 域名，并将构建产物部署到 CDN 服务
 1. 配置cdn基础路径：通过在 next.config.js 中添加 assetPrefix 配置项，指定 CDN 域名前缀
-```
+```typescript
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -18,10 +18,6 @@ const nextConfig = {
     // 若图片路径包含 CDN 前缀，可通过 path 配置简化
     path: 'https://cdn.example.com/next-app/_next/image',
   },
-
-  // 3. （可选）配置字体加载的 CDN 路径
-  // 若使用 next/font，可通过 variable 或 className 确保字体 URL 指向 CDN
-  // （next/font 会自动使用 assetPrefix，通常无需额外配置）
 };
 
 module.exports = nextConfig;
