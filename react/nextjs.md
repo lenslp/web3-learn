@@ -18,11 +18,53 @@
 1. pages router
 2. app router, 从 v13.4 起，App Router 已成为默认的路由方案。
 
+## Pages router
+1. 数据请求
+    - getServerSideProps：每次请求都会在服务器上执行，获取数据并生成 HTML（SSR）
+    - getStaticProps：只在构建时请求数据，生成HTML，请求时不跑服务器逻辑（SSG）
+    - getStaticProps：设置 revalidate: 60，构建时生成HTML，每隔60秒重新获取
+    - getInitialProps: 在客户端和服务端都能使用（不推荐）。
+2. 默认不写getServerSideProps和getStaticProps的话就是服务端渲染
+3. ssr流程：
+  + 客户端请求页面
+  + 服务器执行 getServerSideProps
+  + 服务器渲染页面并返回 HTML
+  + 客户端加载 JS、完成水合 (hydration)
+4. ssr不足：
+  + 服务端执行react组件生成HTML，发送给客户端，客户端需要重新执行react组件进行水合，组件也会打包到客户端中，导致bundle体积大。
+
 ## App Router
 1. 基于React server components设计，分为服务端组件和客户端组件。
-2. 默认情况下，组件在服务端渲染（生成 RSC payload 数据），不包含客户端交互逻辑，也不能使用浏览器 API。
+2. 默认情况下，组件在服务端渲染
+  + 生成Rsc Payload（json结构，包含组件渲染结果等信息），支持流式输出
+  + 组件只在服务端执行，不会打包进客户端
+  + 客户端只hydrate客户端组件
+  + 可以直接访问数据库、读文件、调用API
 3. 通过 `'use client'` 指令，标记客户端组件。
 4. 服务端负责渲染初始内容（解决首屏速度和 SEO），客户端负责激活交互（保持 SPA 体验），符合同构的核心目标。
+5. server actions: 使用 `'use server'` 指令，将函数标记为服务器端函数。服务器端函数可以直接与数据库交互，例如查询、插入、更新、删除等操作。必须由客户端组件调用。
+
+## 动态路由
+1. [id]：文件夹的名字用方括号括住。这个路由的名字会作为 params prop 传给布局、 页面、 路由处理程序 以及 generateMetadata 函数
+2. [...folderName]：app/shop/[...slug]/page.js会匹配 /shop/clothes，也会匹配 /shop/clothes/tops、/shop/clothes/tops/t-shirts等等
+3. getStaticPaths：配置有哪些动态路径需要在构建时预渲染成 HTML
+  + paths：所有需要静态生成的路径
+  + fallback：当请求的路径未在 paths 中出现时，如何处理
+```typescript
+export async function getStaticPaths() {
+  const res = await fetch('https://api.example.com/products')
+  const products = await res.json()
+
+  const paths = products.map(p => ({
+    params: { id: p.id.toString() }
+  }))
+
+  return {
+    paths,
+    fallback: false
+  }
+}
+```
 
 ## template和layout的区别
 + layout：布局，多个页面间共享UI结构，共享状态（比如导航栏、页脚）
@@ -75,7 +117,7 @@ export const config = {
         - 每次请求都需要在服务器端渲染页面，高并发下服务器压力较大
         - 服务器需要先请求数据，然后渲染完整的html返回给客户端，增加了延迟。
         - 客户端只有加载完整的js之后才会进行水合。
-+ ssg：静态站点生成，在构建时渲染页面，生成静态 HTML 文件，每次请求直接返回静态文件。
++ ssg：静态站点生成，在构建时服务端渲染页面，生成静态 HTML 文件，每次请求直接返回静态文件。本质也是服务端渲染。
     + 适用于内容不经常变化的场景，例如博客、产品介绍页。
 + isr：增量静态渲染，在构建时渲染页面，生成静态 HTML 文件，但是在每次请求时会检查是否有新的数据，如果有则重新渲染页面，返回给客户端。
     + 适用于内容偶尔变化的场景，例如新闻网站、商品列表。
@@ -86,6 +128,8 @@ export const config = {
     + 服务器端渲染组件后，不是生成html文件，而是生成序列化的json数据（包含组件结构、文本内容，引用关系等）
     + 客户端接收到序列化数据后，进行组装和渲染，这个时候不需要下载服务器端组件的js文件，只需要下载客户端的js文件以及react框架相关的js即可。
     + 状态保持：相比于ssr，rsc可以保持组件的状态，避免了每次请求都需要重新渲染页面的问题。
+
+## pages router模式实现SSR、SSG、ISR
 
 ## 如何在 App Router 中实现 SSR、SSG、ISR？
 App Router 中不再有专门的 getStaticProps 等 API，而是通过 fetch 选项、路由配置 或 重新验证 API 控制渲染和缓存行为，对应传统模式如下：

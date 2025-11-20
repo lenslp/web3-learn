@@ -22,4 +22,5 @@ const nextConfig = {
 
 module.exports = nextConfig;
 ```
+2. 将构建产物部署到 CDN 服务
 
