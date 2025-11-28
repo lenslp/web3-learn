@@ -321,3 +321,17 @@ root.render(<App />)
 3. 协调阶段：通过diff算法，对比新旧 Fiber 树，找出需要更新的部分。
 4. 提交阶段：将更新批量应用到真实 DOM。
 5. 清理阶段：重置全局变量，清理上下文和hooks，准备下一次更新。
+
+## 如何把dom挂载到根节点
+createPortal 是 React 提供的一个 API，用于将组件的 JSX 渲染到当前组件树之外的 DOM 节点中，同时仍保持 React 的事件系统与状态管理。
+
+```typescript
+import { createPortal } from 'react-dom';
+
+function Modal({ children }) {
+  return createPortal(
+    <div className="modal">{children}</div>,
+    document.getElementById('modal-root')
+  );
+}
+```

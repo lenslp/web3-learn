@@ -24,5 +24,12 @@ const { data: balance } = useBalance({
 });
 ```
 
-### useChainId
-+ 获取网络ID
+### useSendTransaction：用于发送交易
+```typescript
+const { sendTransaction, isPending, isSuccess } = useSendTransaction();
+// 发送一笔 ETH 转账，当交易被 成功广播到网络 并从钱包发送后， isSuccess 就会变为true
+sendTransaction({
+  to: '0x接收地址',
+  value: ethers.parseEther('0.1')
+});
+```
