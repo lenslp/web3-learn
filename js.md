@@ -393,10 +393,43 @@ tasks.forEach((task, index) => {
   - 问题：循环引用会导致引用计数器 never 为0，无法被回收。
 
 ## parseFloat
-+ 将表示数字的字符串转换为浮点数类型
++ 将将字符串转换为 浮点数（小数）
 + 从可能包含非数字字符的字符串中提取数字部分（非数字字符前的数字）
 ```typescript
 parseFloat("0.000111") // 0.000111
 parseFloat("0.000111").toFixed(2) // 0.00
 parseFloat('112a') // 112
+```
+
+## parseInt
++ 将字符串转换为整数
+```typescript
+parseInt("123");     // 123
+parseInt("123.45");  // 123   （小数部分会被丢弃）
+parseInt("ff", 16) // 255 转换为16进制
+parseInt("1010", 2) // 10 16进制转10进制
+```
+
+##  文本和16进制字符串的转换
++ 文本转16进制字符串：使用 `textEncoder.encode(text).toString()` 方法将文本转换为16进制字符串。
+```typescript
+function textToHex(text) {
+  const encoder = new TextEncoder();
+  const bites = encoder.encode(text); // Uint8Array(10) [228, 189, 160, 229, 165, 189, 240, 159, 152, 128]
+  return Array.from(bites)
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+console.log(textToHex("你好😀")); // e4bda0e5a5bdf09f9880
+```
++ 16进制字符串转文本：使用 `textDecoder.decode(hexString)` 方法将16进制字符串转换为文本。
+```typescript
+function hexToUtf8(hex) {
+  const bytes = hex.match(/.{1,2}/g).map(byte => parseInt(byte, 16));
+  const decoder = new TextDecoder();
+  return decoder.decode(new Uint8Array(bytes));
+}
+
+console.log(hexToUtf8("e4bda0e5a5bdf09f9880")); // 你好😀
 ```
