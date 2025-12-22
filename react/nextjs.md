@@ -462,3 +462,8 @@ const NoSSR = dynamic(() => import('../components/no-ssr'), { ssr: false })
 
 ## nextjs性能优化
 1. 默认开启了splitChunks，每个页面只会打包该页面依赖的 JS，公共依赖会拆分成 commons 或 vendors chunk，多个页面共享，node_modules 的库也会拆成单独 chunk，提高缓存命中率。
+
+## 错误问题
+1. 水合错误：服务器端渲染（SSR）时的 HTML 与客户端渲染的 HTML 不匹配
+  + 比如：原因：useAccount hook 在服务器端返回 address: undefined，但在客户端钱包连接后返回实际地址，导致按钮的 disabled 属性在服务器端和客户端不一致
+  + 解决方案：添加 mounted 状态跟踪组件是否在客户端挂载（默认为false，在useEffect中设置为true），在 SSR 阶段返回简单的加载界面，客户端挂载后才渲染完整的页面内容。
