@@ -1,4 +1,5 @@
 React 18 和 19 引入了多项重要特性，主要围绕并发渲染、开发体验优化、服务器组件等方向展开，以下是核心新特性总结：
+
 ## React 18 核心新特性（2022 年 3 月发布）
 1. 并发渲染
 + 引入 “并发更新” 机制，允许 React 中断、暂停、恢复甚至放弃渲染工作，避免渲染阻塞主线程（如用户输入、动画等高频操作）。
@@ -17,6 +18,17 @@ useTransition：标记状态更新为 “非阻塞过渡”，React 可优先处
 + React 18 正式将 Suspense 的适用范围从 “仅组件懒加载” 扩展到 “数据加载”，允许配合符合规范的数据获取库（如 React Query、SWR 的 Suspense 模式），在数据加载期间显示 fallback。
 + 可以与并发特性协同工作，允许中断低优先级的加载任务，优先响应用户交互
 + 支持服务器组件
+7. 新的 Hooks
++ useId：
+    - 生成在客户端和服务端都一致的、稳定的唯一 ID。
+    - 适用于表单元素的 label 与 input 绑定，确保无冲突。
+```typescript
+// 表单 label 与 input 绑定
+const id = useId();
+<label htmlFor={id}>Name:</label>
+<input id={id} />
+```
+
 ## React 19 核心新特性（2024 年 10 月发布）
 1. 服务器组件（Server Components）稳定版
 正式支持服务器组件（RSC），组件默认在服务器渲染，通过 'use client' 指令标记客户端组件。
@@ -35,9 +47,11 @@ useEffect 清理函数支持异步（返回 Promise），便于处理异步清�
 useState 支持直接传递函数作为初始值（无需 lazy initializer 模式）。
 6. 服务器操作（Server Actions）
 允许在客户端组件中直接调用服务器函数（通过 'use server' 指令标记），简化前后端数据交互，无需手动编写 API 调用。
+
 ## 总结
 React 18 核心是并发渲染架构，为高性能交互奠定基础，同时铺垫服务器组件。
 React 19 聚焦服务器组件生态完善，通过 server Actions、Suspense 数据获取等特性简化全栈开发，推动 “编译时优化” 减少手动优化成本。
+
 ## react18并发特性和fiber机制的关系
 + Fiber 机制（React 16 引入）：是 React 内部重构的协调引擎数据结构，为并发特性奠定了 “技术基础”，但未完全释放并发能力。
 + 并发特性（React 18 完善）：是基于 Fiber 机制实现的渲染调度策略，是 Fiber 机制的 “能力落地”，让 React 具备了 “可中断、优先级调度” 的实际能力。

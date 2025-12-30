@@ -13,3 +13,10 @@
     + n8n
 3. codereview agents
 4. rag
+
+## 团队协作
+1. 问题：同时使用AI开发有一个问题 就是大家使用方式不一样模型不一样 AI会改动代码上下文
+2. 解决：
+    + 共享 Prompt 模板
+    + Cursor Rules
+    + 代码审查 agents

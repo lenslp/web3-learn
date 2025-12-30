@@ -119,3 +119,6 @@ emit Transfer(msg.sender, to, value);
   + revert + error 更省燃气
   + require仅能返回固定字符串，前端无法精准区分错误类型
   + 自定义 error 支持传入参数，前端可解析错误类型和参数，精准处理
+
+## 减少合约gas消耗的技巧
+1. unchecked 关键字：在进行算术运算时，默认情况下 Solidity 会检查溢出和下溢。如果确定不会发生溢出，可以使用 unchecked 关键字来跳过这些检查，从而节省 gas。
