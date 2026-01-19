@@ -73,6 +73,8 @@ app.use(morgan('dev')); // 打印请求日志（开发环境）
     + 隔离前端与后端
         - 前端只对接 BFF，无需关心后端服务的具体实现
         - 后端专注于业务层，无需适配前端需求
+3. node向后端服务发起请求的方式
+    + unix domain socket，适用于同一台机器上的进程间通信
 
 ## node集群
 1. 定义：将多个 Node.js 进程分布在多个物理或虚拟机器上，共同处理 incoming requests，实现负载均衡和高可用性。
@@ -83,3 +85,146 @@ app.use(morgan('dev')); // 打印请求日志（开发环境）
     + 每个工作进程都是一个独立的 Node.js 实例，有自己的事件循环和内存空间。
     + 工作进程之间通过 IPC（Inter-Process Communication）通信，主进程可以将请求分发给不同的工作进程处理。
     + 这样可以充分利用多核 CPU，提高 SSR 页面渲染的并发能力。
+
+## 面向切面的编程 AOP
+1. 定义：AOP 就是：把“到处都要写的重复代码”，单独拎出来，统一在一个地方写。将横切关注点（错误处理、日志、路由、依赖管理等）从业务逻辑中分离出来，通过切面统一处理，实现代码的 高内聚、低耦合
+  + 接口日志
+  + 权限校验
+  + 接口耗时统计
+  + 统一异常处理
+
+## 依赖注入（Dependency Injection）、Awilix
+1. Node.js 世界里，一个帮你自动管理依赖关系的“对象工厂 + 容器”
+2. 解决的问题：
+  + 集中管理对象的创建
+  + 自动把依赖注入进去，不用手动 new
+  + 让模块解耦、好测试、好维护
+```typescript
+// logger.js
+export class Logger {
+  log(msg) {
+    console.log("[LOG]", msg)
+  }
+}
+
+// userRepo.js
+export class UserRepo {
+  findUser() {
+    return { id: 1, name: "Tom" }
+  }
+}
+
+// userService.js
+export class UserService {
+  constructor({ userRepo, logger }) {
+    this.userRepo = userRepo
+    this.logger = logger
+  }
+
+  getUser() {
+    this.logger.log("get user")
+    return this.userRepo.findUser()
+  }
+}
+
+// 用 Awilix 统一“组装对象”
+// container.js
+import { createContainer, asClass } from "awilix"
+import { Logger } from "./logger.js"
+import { UserRepo } from "./userRepo.js"
+import { UserService } from "./userService.js"
+
+const container = createContainer()
+
+container.register({
+  logger: asClass(Logger).singleton(),
+  userRepo: asClass(UserRepo).singleton(),
+  userService: asClass(UserService),
+})
+
+export { container }
+
+// 使用
+// app.js
+import { container } from "./container.js"
+
+const userService = container.resolve("userService")
+
+userService.getUser()
+
+// 实际发生了什么？
+container.resolve("userService")
+  ↓
+new UserRepo()
+new Logger()
+new UserService({ userRepo, logger })
+
+```
+
+## module-alias
+1. 作用：用“别名”来引用模块，避免写一堆又长又丑的相对路径。
+
+## log4js
+1. 作用：Node.js 里的日志工具，用来把 console.log 升级成：可分级、可分文件、可格式化、可按规则输出的日志系统
+
+## qps稳定
+pm2、ec2、ecs、nginx、k8s、docker
+serverless
+
+## 请求量大时，node如何保证稳定性
+1. 性能
+2. 错误监控
+
+## ioc、面向切面、依赖注入、控制反转、AOP
+
+## ts-node-dev
+1. 是一个用于开发阶段的工具，让你可以直接运行 TypeScript，并在代码变更时自动重启进程。
+2. 专门用在本地开发，不是生产环境。
+3. 核心原理：
+  + ts-node：在运行时把 .ts 编译成 JS
+  + 文件监听：监听 .ts 文件变化
+  + 自动重启进程：类似 nodemon
+
+## koa 架构
+1. Router：负责处理 HTTP 请求，根据 URL 调用对应的 Controller 方法。
+2. Controller：负责处理业务逻辑，调用 Service 层方法，返回结果给 Router。
+```typescript
+import { GET, route } from 'awilix-koa';
+import type { Context } from 'koa';
+// 定义路由
+@route('/')
+class IndexController {
+  // 处理请求 controller 角色
+  @GET()
+  async actionList(ctx: Context): Promise<void> {
+    const data = await ctx.render('index', {
+      data: '服务端数据',
+    });
+    ctx.body = data;
+  }
+}
+export default IndexController;
+```
+3. Service：负责实现业务逻辑，调用 Repository 层方法，处理数据。
+4. Repository：负责与数据库或其他数据源交互，执行 CRUD 操作。
+  + 简单项目不需要 Repository 层，直接在 Service 层操作数据库。
+```typescript
+import { PrismaClient } from '@prisma/client';
+
+class UserService {
+  private prismaClient: PrismaClient;
+
+  constructor({ prismaClient }: { prismaClient: PrismaClient }) {
+    this.prismaClient = prismaClient;
+  }
+
+  async createUser(email: string, name?: string) {
+    return await this.prismaClient.user.create({
+      data: {
+        email,
+        name,
+      },
+    });
+  }
+}
+```
