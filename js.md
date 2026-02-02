@@ -433,3 +433,16 @@ function hexToUtf8(hex) {
 
 console.log(hexToUtf8("e4bda0e5a5bdf09f9880")); // 你好😀
 ```
+
+## Symbol.for 和 new Symbol
++ Symbol.for：根据给定的键（key），返回一个已存在的 Symbol 对象，或创建一个新的 Symbol 对象并返回。
++ new Symbol：创建一个新的 Symbol 对象，每次调用都返回一个唯一的 Symbol 值。
+```typescript
+const sym1 = Symbol.for('indexService');
+const sym2 = Symbol.for('indexService');
+console.log(sym1 === sym2); // true
+
+const sym3 = new Symbol('indexService');
+const sym4 = new Symbol('indexService');
+console.log(sym3 === sym4); // false
+```

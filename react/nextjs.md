@@ -467,3 +467,7 @@ const NoSSR = dynamic(() => import('../components/no-ssr'), { ssr: false })
 1. 水合错误：服务器端渲染（SSR）时的 HTML 与客户端渲染的 HTML 不匹配
   + 比如：原因：useAccount hook 在服务器端返回 address: undefined，但在客户端钱包连接后返回实际地址，导致按钮的 disabled 属性在服务器端和客户端不一致
   + 解决方案：添加 mounted 状态跟踪组件是否在客户端挂载（默认为false，在useEffect中设置为true），在 SSR 阶段返回简单的加载界面，客户端挂载后才渲染完整的页面内容。
+
+  ## nextjs可以使用antd吗？更推荐的UI库是什么？
+  可以，但是不推荐。因为antd是基于css-in-js的，在ssr时会导致样式闪烁。更推荐的UI库是shadcn/ui。
+  

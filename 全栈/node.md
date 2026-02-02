@@ -1,3 +1,24 @@
+## 常用api
+1. fs：文件系统操作（读写、删除、创建目录等）
+  + copyFileSync(source, target)：同步复制文件
+  + copySync(source, target)：同步复制文件或目录 // fs-extra 提供的增强能力
+  + existsSync(path)：检查路径是否存在
+  + mkdirSync(path)：同步创建目录
+  + removeSync(path)：同步删除目录或文件
+2. path：路径操作（拼接、解析等）
+  + path.join()：拼接路径，自动处理路径分隔符
+  + path.resolve()：解析路径，返回绝对路径
+3. http/https：创建 HTTP/HTTPS 服务器/客户端
+4. net：创建 TCP 服务器/客户端
+5. child_process：创建子进程执行 shell 命令等
+6. events：事件模块，用于自定义事件和事件监听
+7. process：全局进程对象，提供与当前 Node.js 进程相关的信息和操作
+  + process.cwd()：执行命令时所在的目录
+  + __dirname：当前模块所在目录的路径
+  + process.exit(0/1)：退出当前进程，0 表示成功，1 表示失败
+8. which: 第三方模块，判断某个命令是否已安装
+  + which('command')：返回命令的可执行路径，若不存在则返回 null
+
 ## node的事件循环
 + 宏任务：6个阶段的宏任务队列 + 1个微任务队列，每个阶段对应特定类型的任务，按阶段依次执行，每个阶段清空当前队列后进入下一阶段。setTimeout、setInterval、setImmediate、I/O 回调等。
 + 6个阶段：
@@ -176,6 +197,11 @@ serverless
 2. 错误监控
 
 ## ioc、面向切面、依赖注入、控制反转、AOP
+1. ioc：控制反转，把对象的创建和依赖管理交给容器（如 Awilix），而不是在代码中直接 new。
+2. 面向切面：把横切关注点（如日志、权限校验、异常处理等）从业务逻辑中分离出来，通过切面统一处理。
+3. 依赖注入：在运行时，容器会自动把依赖的对象注入到需要它们的类中。
+4. 控制反转：把对象的创建和依赖管理的控制权交给容器，而不是在代码中直接 new。
+5. AOP：面向切面编程，把横切关注点从业务逻辑中分离出来，通过切面统一处理。
 
 ## ts-node-dev
 1. 是一个用于开发阶段的工具，让你可以直接运行 TypeScript，并在代码变更时自动重启进程。

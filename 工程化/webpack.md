@@ -79,6 +79,30 @@ module.exports = {
 + webpack 只能处理 JS 文件，其他类型的文件（如 CSS、图片、字体等）需要通过 loader 进行转换，才能被 webpack 理解和打包。
 + 从右到左：每个 loader 从右到左执行，将上一个 loader 的输出作为下一个 loader 的输入。
 
+### 常用loader
+1. postcss-loader
+    + 用于处理 CSS 文件，自动添加浏览器前缀，确保 CSS 兼容性。
+    + Tailwind CSS 的“引擎”，把那些 flex, p-4, dark:bg-black编译成标准的 CSS。
+2. css-loader
+    + 解析 CSS 文件，处理 CSS 中的 import/require 语句，将 CSS 模块转换为 CommonJS 模块。
+3. style-loader
+    + 将 CSS 模块注入到 DOM 中，通过 style 标签的方式应用 CSS。
+4. babel-loader
+    + 将 ES6+ 代码转换为 ES5 代码，支持 JSX 语法转换。
+5. file-loader
+    + 处理文件资源（如图片、字体等），将文件复制到输出目录，并返回文件路径。
+6. url-loader
+    + 类似 file-loader，但当文件大小小于阈值时，会将文件转换为 Base64 URL，内联到代码中。
+7. html-loader
+    + 处理 HTML 文件，支持内联 CSS、JS、图片等资源。
+8. less-loader
+    + 将 Less 文件转换为 CSS 文件。
+9. ts-loader
+    + 将 TypeScript 文件转换为 JavaScript 文件。   
+
+### loader执行顺序
++ 从右到左：每个 loader 从右到左执行，将上一个 loader 的输出作为下一个 loader 的输入。
+
 ### 自定义loader 
 ```js
 // 接收原始文件内容作为参数，返回转换后的内容

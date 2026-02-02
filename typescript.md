@@ -131,3 +131,17 @@ type RecordPerson = Record<string, Person>; // { [key: string]: Person; }
 1. ?：可选运算符，用于表示一个属性或参数是可选的。
 2. ??：空值合并运算符，用于判断一个值是否为 null 或 undefined，如果是，则返回默认值。
 3. !：非空断言运算符，用于告诉 TypeScript 编译器一个值不会为 null 或 undefined。
+
+## implements 关键字
+implements 关键字用于实现一个接口。
+```typescript
+interface IIndexService {
+  log(str: string): void;
+}
+
+class IndexService implements IIndexService {
+  log(str: string) {
+    console.log(str);
+  }
+}
+```
