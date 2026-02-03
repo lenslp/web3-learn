@@ -446,3 +446,19 @@ const sym3 = new Symbol('indexService');
 const sym4 = new Symbol('indexService');
 console.log(sym3 === sym4); // false
 ```
+
+## script
+1. 类型
+  + text/javascript，默认不写
+  + application/json
+  + module：模块脚本（ES Modules）
+2. type="application/json" 的 <script> 不会被浏览器当作脚本执行，只是把它当作纯文本节点留在 DOM 里
+```typescript
+<script id="__DATA__" type="application/json">
+  {"user":{"id":1,"name":"Alice"}}
+</script>
+// 客户端读取
+const data = JSON.parse(
+  document.getElementById('__DATA__').textContent
+)
+```
