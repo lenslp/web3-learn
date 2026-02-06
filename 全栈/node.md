@@ -11,6 +11,7 @@
 3. http/https：创建 HTTP/HTTPS 服务器/客户端
 4. net：创建 TCP 服务器/客户端
 5. child_process：创建子进程执行 shell 命令等
+  + execSync：在 Node 进程里直接运行一条系统命令（例如 git branch --show-current），并阻塞当前代码，直到命令执行完才继续往下执行。
 6. events：事件模块，用于自定义事件和事件监听
 7. process：全局进程对象，提供与当前 Node.js 进程相关的信息和操作
   + process.cwd()：执行命令时所在的目录
