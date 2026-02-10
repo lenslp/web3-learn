@@ -6,16 +6,11 @@ webpack plugin 本地 ai codereview
 
 ## RAG
 1. 用户问题
-   ↓
 2. 向量化（Embedding）
     + 把“人能理解的东西”（文字、图片、代码），变成“机器能比较远近的数字坐标”
-   ↓
 3. 向量检索（Top-K 文档）
-   ↓
 4. 构造 Prompt（上下文拼接）
-   ↓
 5. LLM 生成回答
-   ↓
 6. 解决了模型"不知道你私有数据"、"容易胡说"的问题
 
 ## Ollama
@@ -24,9 +19,10 @@ Ollama 是一个本地运行的大模型，支持多种模型，如 Llama2、Cha
 ## 开源仓库
 + [AI文档检索大模型](https://github.com/Tencent/WeKnora/blob/main/README_CN.md)
 
-## n8n
-
-## difi
+## AI工具
+1. LangChain：给开发者用的 Agent/LLM 编程框架
+2. n8n：给流程自动化用的 可视化工作流引擎
+3. Dify：给产品/业务用的 AI 应用平台（低代码）
 
 ## AI编程
 https://github.com/tukuaiai/vibe-coding-cn?tab=readme-ov-file
@@ -41,9 +37,6 @@ https://github.com/tukuaiai/vibe-coding-cn?tab=readme-ov-file
 3. paraflow生成产品稿、chatGpt生成prd -> gemini3 nano banan 生成图片 -> figma make 设计稿 -> 前端用figma mcp生成代码 -> comet浏览器 -> 测试 -> warp自动化运维
 ![alt text](image.png)
 4. 通过monorepo管理项目代码，避免重复
-
-## 团队使用ai如何保证代码一致性
-1. subagent
 
 ## NotebookLM
 + 基于我上传的资料进行问答，减少ai幻觉
