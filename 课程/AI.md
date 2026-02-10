@@ -4,7 +4,10 @@ https://arena.ai/zh/leaderboard/code
 ## mcp
 1. 是什么
     + 使 Claude 等 AI 系统能够安全地连接各种数据源。它通过客户端-服务器架构为 AI 助手提供了访问外部数据、工具和提示的通用标准
-1. 网站：mcp.so
+2. 网站：mcp.so
+3. 如何开发mcp
+    + https://github.com/modelcontextprotocol/server
+    + https://github.com/modelcontextprotocol/sdk-typescript
 
 ## agents
 1. 是什么
