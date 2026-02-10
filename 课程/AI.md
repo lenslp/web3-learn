@@ -1,5 +1,5 @@
 ## AI CODE榜单
-https://lmarena.ai/leaderboard/webdev
+https://arena.ai/zh/leaderboard/code
 
 ## mcp
 1. 是什么
