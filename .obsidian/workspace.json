@@ -1,0 +1,223 @@
+{
+  "main": {
+    "id": "286ad3813a8b3564",
+    "type": "split",
+    "children": [
+      {
+        "id": "5fd014895e485d63",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "60a84f4711c9c322",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "前端基础/js.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "js"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "25bb41625f39ffcb",
+    "type": "split",
+    "children": [
+      {
+        "id": "4456d52ecbb9917f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f418b8bc186b463a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "0f7a63c5e594e204",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "c885281740506c97",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 234.5
+  },
+  "right": {
+    "id": "f14bd63b06d72230",
+    "type": "split",
+    "children": [
+      {
+        "id": "58606e25e7fb7a9a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b97c4cb6fa276d29",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "AI/编程.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "编程 的反向链接列表"
+            }
+          },
+          {
+            "id": "4b2c48abcbd11f38",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "ab425c2697815edb",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "8a834a22c090ced1",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "34ae55215ee52604",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "2026-02-18.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "2026-02-18 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "f418b8bc186b463a",
+  "lastOpenFiles": [
+    "前端基础/浏览器vsNode事件循环.md",
+    "工程化/半中心化前端架构部署方案.md",
+    "工程化/半中心化前端架构部署方案.jpg",
+    "全栈/node.md",
+    "全栈/AWS运维部署.md",
+    "课程/前端架构设计指南(1).pdf",
+    "运维/基础.md",
+    "运维/AWS-ALB应用负载均衡器.md",
+    "网络相关/常见攻击场景与防御指南.md",
+    "网络相关/https.md",
+    "AI/编程.md",
+    "AI/架构设计.png",
+    "AI/base.md",
+    "AI/base/DappRadar-AI-Narratives.md",
+    "AI/base/README.md",
+    "AI/base",
+    "未命名 1.base",
+    "未命名.base",
+    "AI/OpenClaw常用命令指南.md",
+    "AI/LangChain.js 技术架构.pdf",
+    "AI/image.png",
+    "岗位/交易所.md",
+    "岗位/平台.md",
+    "岗位/就业方向.md",
+    "前端基础/css.md",
+    "自我介绍.md",
+    "未命名.canvas",
+    "工程化/rollup.md",
+    "工程化/vite.md",
+    "工程化/webpack.md",
+    "工程化/api-cli.md",
+    "工程化/打包工具对比.md",
+    "工程化/包管理.md",
+    "2026-02-18.md",
+    "私仓.md"
+  ]
+}
