@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "前端基础/js.md",
+                "file": "后端/SupabasevsPostgreSQL.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "js"
+              "title": "SupabasevsPostgreSQL"
             }
           }
         ]
@@ -182,16 +182,19 @@
       "bases:新建数据库": false
     }
   },
-  "active": "f418b8bc186b463a",
+  "active": "60a84f4711c9c322",
   "lastOpenFiles": [
+    "后端/Supabase-Start做了什么.md",
+    "运维/AWS-ALB应用负载均衡器.md",
+    "运维/Docker技术指南.md",
+    "运维/基础.md",
+    "前端基础/js.md",
     "前端基础/浏览器vsNode事件循环.md",
     "工程化/半中心化前端架构部署方案.md",
     "工程化/半中心化前端架构部署方案.jpg",
     "全栈/node.md",
     "全栈/AWS运维部署.md",
     "课程/前端架构设计指南(1).pdf",
-    "运维/基础.md",
-    "运维/AWS-ALB应用负载均衡器.md",
     "网络相关/常见攻击场景与防御指南.md",
     "网络相关/https.md",
     "AI/编程.md",
@@ -215,9 +218,6 @@
     "工程化/vite.md",
     "工程化/webpack.md",
     "工程化/api-cli.md",
-    "工程化/打包工具对比.md",
-    "工程化/包管理.md",
-    "2026-02-18.md",
-    "私仓.md"
+    "工程化/打包工具对比.md"
   ]
 }
